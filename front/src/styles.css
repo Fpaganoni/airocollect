@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: hsl(182, 25%, 20%, 0.5);
+  color: white;
+}
+
+/* Estilos para las etiquetas de medición */
+.tooltip {
+  position: relative;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  color: white;
+  padding: 4px 8px;
+  opacity: 0.9;
+  white-space: nowrap;
+  font-family: sans-serif;
+  font-size: 12px;
+  pointer-events: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-static {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid white;
+  font-weight: bold;
+}
+
+.tooltip-measure {
+  opacity: 1;
+  font-weight: bold;
+}
