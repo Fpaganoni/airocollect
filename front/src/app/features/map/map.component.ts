@@ -228,14 +228,14 @@ export class MapComponent implements OnInit, AfterViewInit {
         new TileLayer({
           source: new XYZ({
             url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-            maxZoom: 19,
+            maxZoom: 18,
           }),
         }),
         this.vector,
       ],
       view: new View({
-        center: [-6480000, -4100000],
-        zoom: 14,
+        center: [484428, 6593467],
+        zoom: 10,
       }),
     });
   }
