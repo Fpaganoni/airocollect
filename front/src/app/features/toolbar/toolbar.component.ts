@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
       <button
         (click)="setMode('LineString')"
         [class.bg-blue-100]="activeMode === 'LineString'"
-        class="px-4 py-2 hover:bg-gray-100 rounded text-sm font-medium transition-colors text-gray-700 flex items-center gap-2"
+        class="px-4 py-2 hover:bg-gray-100 rounded text-sm font-medium transition-colors text-gray-700 flex items-center gap-2 shadow-lg"
       >
         <span>Line</span>
       </button>

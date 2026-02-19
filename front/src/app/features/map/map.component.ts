@@ -37,25 +37,9 @@ import Feature from 'ol/Feature';
       <div
         class="w-80 h-full bg-white shadow-lg z-10 p-4 overflow-y-auto flex flex-col gap-4 border-r border-gray-200"
       >
-        <h2 class="text-xl font-bold text-gray-800 border-b pb-2">
+        <h2 class="text-xl font-bold text-black border-b border-black pb-2">
           Measurements
         </h2>
-
-        <!-- Controls -->
-        <div class="flex gap-2">
-          <button
-            (click)="setDrawMode('LineString')"
-            class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition shadow-sm"
-          >
-            Draw Line
-          </button>
-          <button
-            (click)="setDrawMode('Polygon')"
-            class="flex-1 px-3 py-2 bg-emerald-600 text-white text-sm font-medium rounded hover:bg-emerald-700 transition shadow-sm"
-          >
-            Draw Polygon
-          </button>
-        </div>
 
         <!-- List -->
         <div class="flex flex-col gap-3 mt-2">
@@ -102,18 +86,18 @@ import Feature from 'ol/Feature';
               </div>
 
               <input
-                class="w-full text-lg font-medium bg-transparent border-b border-transparent hover:border-300 focus:border-blue-500 focus:outline-none transition-colors px-0 py-1"
+                class="w-full text-lg font-medium bg-gray-50 text-black outline-none transition-colors px-0 py-1"
                 [value]="measure.properties.label"
                 (change)="updateLabel(measure._id!, $event)"
                 (click)="$event.stopPropagation()"
               />
 
-              <div class="text-sm text-gray-500 mt-1">
+              <div class="text-sm text-gray-800 mt-1">
                 Total:
                 {{ measure.properties.calculatedValue | number: '1.2-2' }} m
                 @if (measure.properties.type === 'LineString') {
                   <div
-                    class="mt-2 text-xs text-gray-400 pl-2 border-l-2 border-gray-200"
+                    class="mt-2 text-xs text-gray-500 pl-2 border-l-2 border-gray-300"
                   >
                     @for (
                       segLength of getSegmentLengths(measure);
