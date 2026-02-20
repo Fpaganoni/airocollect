@@ -26,5 +26,3 @@ The important parts are:
 
 - are you capable to use AI tools to do coding
 - are you capable to evaluate and understand the code generated
-
-tchHOX8cG4uEAlqf
