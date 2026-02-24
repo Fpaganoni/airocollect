@@ -3,9 +3,9 @@
 // ──────────────────────────────────────────────
 
 import { Request, Response, NextFunction } from "express";
-import { ZodSchema } from "zod/v4";
+import { ZodType } from "zod/v4";
 
-export function validate(schema: ZodSchema) {
+export function validate(schema: ZodType) {
   return (req: Request, res: Response, next: NextFunction): void => {
     const result = schema.safeParse(req.body);
 
