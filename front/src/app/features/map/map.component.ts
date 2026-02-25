@@ -110,7 +110,7 @@ import Feature from 'ol/Feature';
               </div>
             </div>
           } @empty {
-            <div class="text-center text-gray-400 py-8 italic">
+            <div class="text-center text-gray-600 py-8 italic">
               No measurements yet.<br />Start drawing!
             </div>
           }
@@ -503,11 +503,6 @@ export class MapComponent implements OnInit, AfterViewInit {
     let value = 0;
     let label = '';
 
-    // Update segments visual
-    if (geom instanceof LineString) {
-      this.updateSegmentTooltips(feature);
-    }
-
     if (geom instanceof Polygon) {
       value = getArea(geom, { projection: 'EPSG:3857' });
       label = this.formatArea(geom);
@@ -516,20 +511,20 @@ export class MapComponent implements OnInit, AfterViewInit {
       label = this.formatLength(geom);
     }
 
+    // Keep the feature property in sync with the new computed value
+    feature.set('label', label);
+
     const format = new GeoJSON();
     const geoJsonGeom = format.writeGeometryObject(geom!, {
       featureProjection: 'EPSG:3857',
       dataProjection: 'EPSG:4326',
     }) as any;
 
-    // Use current label from properties if available, otherwise formatted value
-    const currentLabel = feature.get('label') || label;
-
     const dto = {
       geometry: geoJsonGeom,
       properties: {
         calculatedValue: value,
-        label: currentLabel,
+        label: label,
       },
     };
 
@@ -628,23 +623,22 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (!overlay) return;
 
     const geom = feature.getGeometry();
-    const label = feature.get('label'); // Respect user edit
 
-    // If label was not edited (or matches old format), we could potentially update it if it's dynamic
-    // But for this requirement, we assume 'label' property is primary.
-    // However, if geometry changed (via Modify), we usually want to update the displayed value if it hasn't been custom text.
-    // The current implementation saves 'formatted value' as 'label' initially.
-    // If we want to strictly follow "label should show total distance", we should probably re-format it if it looks like a measurement.
-    // But simplest is to just ensure position is correct.
-
+    // Recalculate the measurement label from the current (possibly modified) geometry
+    let updatedLabel: string;
     if (geom instanceof Polygon) {
+      updatedLabel = this.formatArea(geom);
       overlay.setPosition(geom.getInteriorPoint().getCoordinates());
     } else if (geom instanceof LineString) {
+      updatedLabel = this.formatLength(geom);
       overlay.setPosition(geom.getLastCoordinate());
       // Also update segment labels
       this.updateSegmentTooltips(feature);
+    } else {
+      updatedLabel = feature.get('label') || '';
     }
-    overlay.getElement()!.innerHTML = label;
+
+    overlay.getElement()!.innerHTML = updatedLabel;
   }
 
   private formatLength(line: LineString): string {

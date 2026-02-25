@@ -3,11 +3,12 @@
 // GeoJSON with 2dsphere index (EPSG:4326)
 // ──────────────────────────────────────────────
 
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
+import { GeoJSONType } from "../../domain/entities/measurement.entity";
 
 export interface MeasurementDocument extends Document {
   geometry: {
-    type: string;
+    type: GeoJSONType;
     coordinates: number[] | number[][] | number[][][];
   };
   properties: {
@@ -15,6 +16,16 @@ export interface MeasurementDocument extends Document {
     type: string;
     label: string;
   };
+}
+
+// Shape of the raw MongoDB object — used in toJSON.transform and the repository
+export interface MeasurementRawDocument {
+  _id: Types.ObjectId | string;
+  geometry: MeasurementDocument["geometry"];
+  properties: MeasurementDocument["properties"];
+  __v?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const MeasurementSchema = new Schema<MeasurementDocument>(
@@ -40,7 +51,7 @@ const MeasurementSchema = new Schema<MeasurementDocument>(
     timestamps: true,
     toJSON: {
       // Transform the output to match the Measurement interface
-      transform(_doc, ret: any) {
+      transform(_doc, ret: MeasurementRawDocument) {
         ret._id = ret._id.toString();
         delete ret.__v;
         delete ret.createdAt;

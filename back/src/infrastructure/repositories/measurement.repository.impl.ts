@@ -8,7 +8,10 @@ import {
   UpdateMeasurementDTO,
 } from "../../domain/entities/measurement.entity";
 import { MeasurementRepository } from "../../domain/repositories/measurement.repository";
-import { MeasurementModel } from "../database/measurement.model";
+import {
+  MeasurementModel,
+  MeasurementRawDocument,
+} from "../database/measurement.model";
 
 export class MongoMeasurementRepository implements MeasurementRepository {
   async findAll(): Promise<Measurement[]> {
@@ -60,7 +63,7 @@ export class MongoMeasurementRepository implements MeasurementRepository {
   }
 
   // ── Map Mongoose lean doc → Domain entity ──
-  private toEntity(doc: Record<string, any>): Measurement {
+  private toEntity(doc: MeasurementRawDocument): Measurement {
     return {
       _id: doc._id.toString(),
       geometry: doc.geometry,
